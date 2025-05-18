@@ -1,0 +1,150 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>de.fx-world</groupId>
+	<artifactId>euvd-api-generator</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<properties>
+	
+		<api.name>EuvdApi</api.name>
+		<api.name.small>euvdapi</api.name.small>
+		<api.version>0.0.1</api.version>
+	
+		<openapi.filename>euvd-api.yaml</openapi.filename>
+		<package.java>de.fxworld.${api.name.small}.client</package.java>
+		<package.javascript>de.fxworld.${api.name.small}.client</package.javascript>
+		<package.csharp>De.FxWorld.${api.name}.Client</package.csharp>
+		<package.php>${api.name}Client</package.php>
+	
+		<output.java>${project.build.directory}/java</output.java>
+		<output.csharp>${project.build.directory}/csharp</output.csharp>
+		<output.php>${project.build.directory}/php</output.php>
+		<output.javascript>${project.build.directory}/javascript</output.javascript>
+			
+		<input.spec>${project.basedir}/${openapi.filename}</input.spec>
+		<api.version.snapshot>-SNAPSHOT</api.version.snapshot>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<!-- RELEASE_VERSION -->
+				<version>7.13.0</version>
+				<!-- /RELEASE_VERSION -->
+				<configuration>
+					<inputSpec>${input.spec}</inputSpec>
+				</configuration>
+				<executions>
+					<execution>
+						<id>generate-java</id>
+						<!--
+						https://openapi-generator.tech/docs/generators/java/ -->
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<generatorName>java</generatorName>
+							<output>${output.java}</output>
+							<addCompileSourceRoot>false</addCompileSourceRoot>
+
+							<groupId>de.fx-world</groupId>
+							<artifactId>${package.java}</artifactId>
+							<artifactVersion>${api.version}${api.version.snapshot}</artifactVersion>
+
+							<configOptions>
+								<invokerPackage>${package.java}</invokerPackage>
+								<apiPackage>${package.java}.api</apiPackage>
+								<modelPackage>${package.java}.model</modelPackage>
+								<artifactDescription>Client library</artifactDescription>
+
+								<!--
+								<sourceFolder>src/gen/java/main</sourceFolder> -->
+
+								<developerEmail>fx@fx-world.de</developerEmail>
+								<developerName>Pascal Weyprecht</developerName>
+								<developerOrganization>fx-world	Softwareentwicklung</developerOrganization>
+								<developerOrganizationUrl>http://fx-world.de</developerOrganizationUrl>
+
+								<licenseName>EPL2</licenseName>
+								<licenseUrl>https://www.eclipse.org/legal/epl-2.0/</licenseUrl>
+
+								<scmUrl>https://github.com/fx-world/euvd-api</scmUrl>
+
+								<hideGenerationTimestamp>true</hideGenerationTimestamp>
+								<library>jersey3</library>
+								
+								<!--<booleanGetterPrefix>is</booleanGetterPrefix>-->
+							</configOptions>
+
+							<!-- <configHelp>true</configHelp>  -->
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>generate-csharp</id>
+						<!--
+						https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/csharp.md -->
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<generatorName>csharp</generatorName>
+							<output>${output.csharp}</output>
+							<configOptions>
+								<packageName>${package.csharp}</packageName>
+								<packageVersion>${api.version}</packageVersion>
+								<targetFramework>net48</targetFramework>
+								
+								<developerOrganization>fx-world	Softwareentwicklung</developerOrganization>
+								<developerOrganizationUrl>http://fx-world.de</developerOrganizationUrl>
+							</configOptions>
+						</configuration>
+					</execution>
+					
+					<execution>
+						<id>generate-php</id>
+						<!--
+						https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/csharp.md -->
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<generatorName>php</generatorName>
+							<output>${output.php}</output>
+							<configOptions>
+								<packageName>${package.php}</packageName>
+								<artifactVersion>${api.version}</artifactVersion>
+								<composerPackageName>fxworld/${api.name.small}-client</composerPackageName>
+								
+								<invokerPackage>FxWorld\${package.php}</invokerPackage>
+								
+								<developerOrganization>fx-world Softwareentwicklung</developerOrganization>
+								<developerOrganizationUrl>http://fx-world.de</developerOrganizationUrl>				
+							</configOptions>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>generate-javascript</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<generatorName>javascript</generatorName>
+							<output>${output.javascript}</output>
+							<configOptions>
+								<apiPackage>${package.javascript}</apiPackage>
+								<packageVersion>${api.version}</packageVersion>
+							</configOptions>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>		
+	</build>
+</project>
