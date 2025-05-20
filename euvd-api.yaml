@@ -363,18 +363,21 @@ components:
           type: number
           example: 0
         enisaIdProduct:
-          type: array          
-          $ref: '#/components/schemas/ProductVersion'
+          type: array
+          items: 
+             $ref: '#/components/schemas/ProductVersion'
         enisaIdVendor:
           type: array
-          $ref: '#/components/schemas/VendorVersion'
+          items:
+             $ref: '#/components/schemas/VendorVersion'
 
     EnisaIdVulnerabilityPage:
       type: object
       properties:
         items:
           type: array
-          $ref: '#/components/schemas/EnisaIdVulnerability'
+          items:
+             $ref: '#/components/schemas/EnisaIdVulnerability'
         total:
           type: integer
 
@@ -414,14 +417,17 @@ components:
           type: number
           example: 0
         vulnerabilityProduct:
-          type: array          
-          $ref: '#/components/schemas/ProductVersion'
+          type: array  
+          items:        
+             $ref: '#/components/schemas/ProductVersion'
         vulnerabilityVendor:
           type: array
-          $ref: '#/components/schemas/VendorVersion'
+          items:
+             $ref: '#/components/schemas/VendorVersion'
         vulnerabilityAdvisory:
           type: array
-          $ref: '#/components/schemas/Advisory'
+          items:
+             $ref: '#/components/schemas/Advisory'
 
     Advisory:
       type: object
@@ -455,11 +461,13 @@ components:
         source:  
           $ref: '#/components/schemas/Source'
         advisoryProduct:
-          type: array          
-          $ref: '#/components/schemas/AdvisoryProduct'
+          type: array
+          items:       
+             $ref: '#/components/schemas/AdvisoryProduct'
         enisaIdAdvisories:
           type: array
-          $ref: '#/components/schemas/AdvisoryVulnerability'
+          items:
+             $ref: '#/components/schemas/AdvisoryVulnerability'
 
     Source:
       type: object

@@ -19,7 +19,7 @@
 		<package.csharp>De.FxWorld.${api.name}.Client</package.csharp>
 		<package.php>${api.name}Client</package.php>
 	
-		<output.java>${project.build.directory}/java</output.java>
+		<output.java>${project.basedir}/java/${package.java}/</output.java>
 		<output.csharp>${project.build.directory}/csharp</output.csharp>
 		<output.php>${project.build.directory}/php</output.php>
 		<output.javascript>${project.build.directory}/javascript</output.javascript>
@@ -74,6 +74,8 @@
 								<licenseUrl>https://www.eclipse.org/legal/epl-2.0/</licenseUrl>
 
 								<scmUrl>https://github.com/fx-world/euvd-api</scmUrl>
+								<scmConnection>scm:git:git@github.com:fx-world/euvd-api.git</scmConnection>
+								<scmDeveloperConnection>scm:git:git@github.com:fx-world/euvd-api.git</scmDeveloperConnection>
 
 								<hideGenerationTimestamp>true</hideGenerationTimestamp>
 								<library>jersey3</library>
