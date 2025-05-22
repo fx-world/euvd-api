@@ -2,7 +2,7 @@
 
 # EUVD API client libraries
 
-This project provides a [OpenApi definition file](euvd-api.yaml) for the European Union Vulnerability Database API.
+This project provides an [OpenApi definition file](euvd-api.yaml) for the European Union Vulnerability Database API.
 It is used to generate client libraries in a variety of programming languages.
 
 [EUVD API Documentation](https://euvd.enisa.europa.eu/apidoc)
