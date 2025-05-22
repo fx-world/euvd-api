@@ -5,7 +5,8 @@
 This project provides an [OpenApi definition file](euvd-api.yaml) for the European Union Vulnerability Database API.
 It is used to generate client libraries in a variety of programming languages.
 
-[EUVD API Documentation](https://euvd.enisa.europa.eu/apidoc)
+* [EUVD API Documentation](https://euvd.enisa.europa.eu/apidoc) (original)
+* [Swagger UI](https://fx-world.github.io/euvd-api/) (interactive)
 
 ## Generate your own client / server
 
@@ -20,15 +21,23 @@ e.g.
 
 ## Building instructions
 
-download sources:
- 
+	# download sources: 
 	git clone https://github.com/fx-world/euvd-api.git
-	
-generate client libraries with maven:
- 
+	# generate client libraries with maven: 
 	mvn package
-	
-for Java go to java subfolder and call:
-
+	# for Java go to java subfolder 
+	cd java
+	# and call:
 	mvn verify
 	
+## Contributing
+
+Issues and pull requests are welcome. Please open an issue if you find a bug or have a feature request.
+
+## License
+
+Copyright (c) 2024 Pascal Weyprecht
+
+This program and the accompanying materials are made available under the terms of the Eclipse Public License 2.0 which is available at https://www.eclipse.org/legal/epl-2.0/
+
+SPDX-License-Identifier: EPL-2.0
