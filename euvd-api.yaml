@@ -1,4 +1,5 @@
-openapi: 3.0.4
+openapi: 3.0.3
+
 info:
   title: EUVD API
   description: API for querying vulnerabilities from the ENISA EUVD database.
