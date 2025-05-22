@@ -8,7 +8,7 @@ import org.junit.jupiter.api.*;
 
 import de.fxworld.euvdapi.client.*;
 import de.fxworld.euvdapi.client.api.FrontpageApi;
-import de.fxworld.euvdapi.client.model.EnisaIdVulnerability;
+import de.fxworld.euvdapi.client.model.Vulnerability;
 
 class FrontpageApiTest {
 
@@ -28,19 +28,19 @@ class FrontpageApiTest {
 
 	@Test
 	void testLastVulnerabilities() throws ApiException {
-		 List<EnisaIdVulnerability> result = apiInstance.lastVulnerabilities();
+		 List<Vulnerability> result = apiInstance.getLastVulnerabilities();
 		 assertNotNull(result);
 	}
 	
 	@Test
 	void testExploitedVulnerabilities() throws ApiException {
-		 List<EnisaIdVulnerability> result = apiInstance.exploitedVulnerabilities();
+		 List<Vulnerability> result = apiInstance.getExploitedVulnerabilities();
 		 assertNotNull(result);
 	}
 	
 	@Test
 	void testCriticalVulnerabilities() throws ApiException {
-		 List<EnisaIdVulnerability> result = apiInstance.criticalVulnerabilities();
+		 List<Vulnerability> result = apiInstance.getCriticalVulnerabilities();
 		 assertNotNull(result);
 	}
 

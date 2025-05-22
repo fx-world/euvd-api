@@ -1,15 +1,14 @@
 openapi: 3.0.4
 info:
   title: EUVD API
-  description: |-
-    EUVD API Documentation
-
+  description: API for querying vulnerabilities from the ENISA EUVD database.
+  version: 0.0.1
   contact:
     email: fx@fx-world.de
   license:
     name: Eclipse Public License 2.0 (EPL)
     url: https://www.eclipse.org/legal/epl-2.0/
-  version: 0.0.1
+  
 externalDocs:
   description: EUVD API Documentation
   url: https://euvd.enisa.europa.eu/apidoc
@@ -20,7 +19,7 @@ paths:
   /lastvulnerabilities:
     get:
       summary: Show latest vulnerabilities
-      operationId: lastVulnerabilities
+      operationId: getLastVulnerabilities
       tags:
         - frontpage
       responses:
@@ -31,7 +30,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/EnisaIdVulnerability'
+                  $ref: '#/components/schemas/Vulnerability'
         default:
           description: Unexpected error
           content:
@@ -42,7 +41,7 @@ paths:
   /exploitedvulnerabilities:
     get:
       summary: Show latest exploited vulnerabilities
-      operationId: exploitedVulnerabilities
+      operationId: getExploitedVulnerabilities
       tags:
         - frontpage
       responses:
@@ -53,7 +52,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/EnisaIdVulnerability'
+                  $ref: '#/components/schemas/Vulnerability'
         default:
           description: Unexpected error
           content:
@@ -64,7 +63,7 @@ paths:
   /criticalvulnerabilities:
     get:
       summary: Show latest critical vulnerabilities
-      operationId: criticalVulnerabilities
+      operationId: getCriticalVulnerabilities
       tags:
         - frontpage    
       responses:
@@ -75,7 +74,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/EnisaIdVulnerability'
+                  $ref: '#/components/schemas/Vulnerability'
         default:
           description: Unexpected error
           content:
@@ -86,7 +85,7 @@ paths:
   /vulnerabilities:
     get:
       summary: Query Vulnerabilities with Flexible Filters
-      operationId: vulnerabilities
+      operationId: getVulnerabilities
       tags:
         - scores_and_filters    
       parameters:
@@ -194,7 +193,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EnisaIdVulnerabilityPage'
+                $ref: '#/components/schemas/VulnerabilityPage'
         default:
           description: Unexpected error
           content:
@@ -205,7 +204,7 @@ paths:
   /enisaid:
     get:
       summary: Show EUVD by ID
-      operationId: enisaId
+      operationId: getByEnisaId
       tags:
         - specific_resources 
       parameters:
@@ -222,7 +221,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EnisaIdVulnerability'
+                $ref: '#/components/schemas/Vulnerability'
         default:
           description: Unexpected error
           content:
@@ -233,7 +232,7 @@ paths:
   /vulnerability:
     get:
       summary: Show vulnerability by ID
-      operationId: vulnerability
+      operationId: getVulnerabilityById
       tags:
         - specific_resources 
       parameters:
@@ -250,7 +249,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Vulnerability'
+                $ref: '#/components/schemas/VulnerabilityWithComponents'
         default:
           description: Unexpected error
           content:
@@ -261,7 +260,7 @@ paths:
   /advisory:
     get:
       summary: Show advisory by ID
-      operationId: advisory
+      operationId: getAdvisoryById
       tags:
         - specific_resources 
       parameters:
@@ -322,7 +321,7 @@ components:
         vendor:
           $ref: '#/components/schemas/Vendor'
 
-    EnisaIdVulnerability:
+    VulnerabilityBase:
       required:
         - id
       type: object
@@ -362,72 +361,57 @@ components:
         epss: 
           type: number
           example: 0
-        enisaIdProduct:
-          type: array
-          items: 
-             $ref: '#/components/schemas/ProductVersion'
-        enisaIdVendor:
-          type: array
-          items:
-             $ref: '#/components/schemas/VendorVersion'
+          
+    Vulnerability:
+       allOf:
+        - $ref: '#/components/schemas/VulnerabilityBase'
+        - type: object
+          properties:
+            exploitedSince:
+              type: string
+              example: 'May 19, 2025, 12:00:00 AM'               
+            enisaIdProduct:
+              type: array
+              items: 
+                $ref: '#/components/schemas/ProductVersion'
+            enisaIdVendor:
+              type: array
+              items:
+                $ref: '#/components/schemas/VendorVersion'
 
-    EnisaIdVulnerabilityPage:
+    VulnerabilityPage:
       type: object
       properties:
         items:
           type: array
           items:
-             $ref: '#/components/schemas/EnisaIdVulnerability'
+             $ref: '#/components/schemas/Vulnerability'
         total:
           type: integer
 
-    Vulnerability:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 'CVE-2024-0864'
-        description:
-          type: string
-          example: 'Enabling Simple Ajax Uploader'
-        datePublished:
-          type: string
-          example: 'May 16, 2025, 12:40:17 PM'
-        dateUpdated:
-          type: string
-          example: 'May 16, 2025, 12:40:17 PM'
-        status:
-          type: string
-          example: 'PUBLISHED'
-        baseScore:
-          type: number          
-          minimum: -10
-          maximum: 10
-          example: 8.7
-        references: 
-          type: string
-          example: 'https://www.incibe.es/en/incibe-cert/notices/aviso/path-traversal-vulnerability-pnetlab\n'
-        ensia_id:
-          type: string
-          example: 'EUVD-2024-16647\n'       
-        assigner:  
-          type: string
-          example: 'CERT-PL'
-        epss: 
-          type: number
-          example: 0
-        vulnerabilityProduct:
-          type: array  
-          items:        
-             $ref: '#/components/schemas/ProductVersion'
-        vulnerabilityVendor:
-          type: array
-          items:
-             $ref: '#/components/schemas/VendorVersion'
-        vulnerabilityAdvisory:
-          type: array
-          items:
-             $ref: '#/components/schemas/Advisory'
+    VulnerabilityWithComponents:
+      allOf:
+        - $ref: '#/components/schemas/VulnerabilityBase'
+        - type: object
+          properties:
+            status:
+              type: string
+              example: 'PUBLISHED'
+            ensia_id:
+              type: string
+              example: 'EUVD-2024-16647\n'       
+            vulnerabilityProduct:
+              type: array  
+              items:        
+                $ref: '#/components/schemas/ProductVersion'
+            vulnerabilityVendor:
+              type: array
+              items:
+                $ref: '#/components/schemas/VendorVersion'
+            vulnerabilityAdvisory:
+              type: array
+              items:
+                $ref: '#/components/schemas/Advisory'
 
     Advisory:
       type: object
@@ -495,7 +479,7 @@ components:
           type: string
           example: '5fe32ac4-e2d7-36d8-93f5-df5dde4f4a9a'
         enisaId:
-          $ref: '#/components/schemas/EnisaIdVulnerability'
+          $ref: '#/components/schemas/Vulnerability'
 
     Error:
       type: object

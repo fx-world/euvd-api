@@ -28,13 +28,13 @@ class SpecificResourcesApiTest {
 
 	@Test
 	void test() throws ApiException {
-		Advisory advisory = apiInstance.advisory("oxas-adv-2024-0002");
+		Advisory advisory = apiInstance.getAdvisoryById("oxas-adv-2024-0002");
 		assertNotNull(advisory);
 		
-		EnisaIdVulnerability ensia = apiInstance.enisaId("EUVD-2025-4893");
+		Vulnerability ensia = apiInstance.getByEnisaId("EUVD-2025-4893");
 		assertNotNull(ensia);
 		
-		Vulnerability vulnerability = apiInstance.vulnerability("CVE-2025-24054");
+		VulnerabilityWithComponents vulnerability = apiInstance.getVulnerabilityById("CVE-2025-24054");
 		assertNotNull(vulnerability);
 	}
 
