@@ -20,7 +20,7 @@
 		<package.php>${api.name}Client</package.php>
 	
 		<output.java>${project.basedir}/java/${package.java}/</output.java>
-		<output.csharp>${project.basedir}/csharp</output.csharp>
+		<output.csharp>${project.basedir}/csharp/${package.csharp}/</output.csharp>
 		<output.php>${project.build.directory}/php</output.php>
 		<output.javascript>${project.build.directory}/javascript</output.javascript>
 			
