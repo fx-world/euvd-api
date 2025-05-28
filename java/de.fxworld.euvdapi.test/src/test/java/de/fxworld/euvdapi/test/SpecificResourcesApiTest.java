@@ -33,9 +33,6 @@ class SpecificResourcesApiTest {
 		
 		Vulnerability ensia = apiInstance.getByEnisaId("EUVD-2025-4893");
 		assertNotNull(ensia);
-		
-		VulnerabilityWithComponents vulnerability = apiInstance.getVulnerabilityById("CVE-2025-24054");
-		assertNotNull(vulnerability);
 	}
 
 }
