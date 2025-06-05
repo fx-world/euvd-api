@@ -92,5 +92,5 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: api-client-csharp
-          path: src/De.FxWorld.EuvdApi.Client/bin/
+          path: De.FxWorld.EuvdApi.Client/src/De.FxWorld.EuvdApi.Client/bin/
           retention-days: 14
