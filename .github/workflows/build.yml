@@ -52,6 +52,12 @@ jobs:
           cache: maven
       - name: Build Java client
         run: mvn --batch-mode verify
+        
+      - uses: actions/upload-artifact@v4
+        with:
+          name: api-client-java
+          path: de.fxworld.euvdapi.client/target/
+          retention-days: 14
       
       - name: Publish Java client
         if: ${{ inputs.release == 'true' }}
@@ -82,4 +88,9 @@ jobs:
 # there is no mono on the runner, so disable this temporarily
 #      - name: Test with the dotnet CLI
 #        run: dotnet test --no-build
-        
+                
+      - uses: actions/upload-artifact@v4
+        with:
+          name: api-client-csharp
+          path: src/De.FxWorld.EuvdApi.Client/bin/
+          retention-days: 14
