@@ -67,7 +67,8 @@ jobs:
           
   build-csharp:
     needs: generate
-    runs-on: ubuntu-latest
+    #runs-on: ubuntu-latest
+    runs-on: windows-latest
     defaults:
       run:
         working-directory: De.FxWorld.EuvdApi.Client
@@ -85,9 +86,8 @@ jobs:
         run: dotnet restore
       - name: Build
         run: dotnet build --no-restore
-# there is no mono on the runner, so disable this temporarily
-#      - name: Test with the dotnet CLI
-#        run: dotnet test --no-build
+      - name: Test with the dotnet CLI
+        run: dotnet test --no-build
                 
       - uses: actions/upload-artifact@v4
         with:
