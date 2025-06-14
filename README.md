@@ -1,4 +1,5 @@
-![workflow](https://github.com/fx-world/euvd-api/actions/workflows/build.yml/badge.svg)
+![Nightly](https://github.com/fx-world/euvd-api/actions/workflows/nightly.yml/badge.svg)
+![Push](https://github.com/fx-world/euvd-api/actions/workflows/onpush.yml/badge.svg)
 
 # EUVD API client libraries
 
@@ -7,6 +8,10 @@ It is used to generate client libraries in a variety of programming languages.
 
 * [EUVD API Documentation](https://euvd.enisa.europa.eu/apidoc) (original)
 * [Swagger UI](https://fx-world.github.io/euvd-api/) (interactive)
+
+## Tests
+
+We are testing nightly, if our definition works with the real API.
 
 ## Generate your own client / server
 

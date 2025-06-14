@@ -83,10 +83,10 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  /vulnerabilities:
+  /search:
     get:
       summary: Query Vulnerabilities with Flexible Filters
-      operationId: getVulnerabilities
+      operationId: searchVulnerabilities
       tags:
         - scores_and_filters    
       parameters:
@@ -223,34 +223,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Vulnerability'
-        default:
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-
-  /vulnerability:
-    get:
-      summary: Show vulnerability by ID
-      operationId: getVulnerabilityById
-      tags:
-        - specific_resources 
-      parameters:
-        - name: id 
-          in: query
-          description: id (string, e.g., id=CVE-2025-24054)
-          required: true
-          schema:
-            type: string
-            example: 'CVE-2025-24054'
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/VulnerabilityWithComponents'
         default:
           description: Unexpected error
           content:

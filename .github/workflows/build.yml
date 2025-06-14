@@ -52,6 +52,12 @@ jobs:
           cache: maven
       - name: Build Java client
         run: mvn --batch-mode verify
+        
+      - uses: actions/upload-artifact@v4
+        with:
+          name: api-client-java
+          path: de.fxworld.euvdapi.client/target/
+          retention-days: 14
       
       - name: Publish Java client
         if: ${{ inputs.release == 'true' }}
@@ -61,7 +67,8 @@ jobs:
           
   build-csharp:
     needs: generate
-    runs-on: ubuntu-latest
+    #runs-on: ubuntu-latest
+    runs-on: windows-latest
     defaults:
       run:
         working-directory: De.FxWorld.EuvdApi.Client
@@ -79,7 +86,11 @@ jobs:
         run: dotnet restore
       - name: Build
         run: dotnet build --no-restore
-# there is no mono on the runner, so disable this temporarily
-#      - name: Test with the dotnet CLI
-#        run: dotnet test --no-build
-        
+      - name: Test with the dotnet CLI
+        run: dotnet test --no-build
+                
+      - uses: actions/upload-artifact@v4
+        with:
+          name: api-client-csharp
+          path: De.FxWorld.EuvdApi.Client/src/De.FxWorld.EuvdApi.Client/bin/
+          retention-days: 14
