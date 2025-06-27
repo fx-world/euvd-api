@@ -73,13 +73,15 @@ jobs:
     defaults:
       run:
         working-directory: De.FxWorld.EuvdApi.Client
+    env:
+      NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}        
     steps:
       - name: Download generated sources
         uses: actions/download-artifact@v4
         with:
           name: csharp-code
       - name: Setup .NET 6.x
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v4        
         with:
           # Semantic version range syntax or exact version of a dotnet version
           dotnet-version: '6.x'
