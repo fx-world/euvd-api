@@ -64,7 +64,8 @@ jobs:
         run: mvn --batch-mode deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+  
+  # Build instructions: https://learn.microsoft.com/en-us/dotnet/devops/dotnet-test-github-action        
   build-csharp:
     needs: generate
     #runs-on: ubuntu-latest
@@ -82,15 +83,23 @@ jobs:
         with:
           # Semantic version range syntax or exact version of a dotnet version
           dotnet-version: '6.x'
+          source-url: https://nuget.pkg.github.com/fx-world/index.json
       - name: Install dependencies
         run: dotnet restore
-      - name: Build
+      - name: Build Debug
         run: dotnet build --no-restore
+      - name: Build Release
+        run: dotnet build --no-restore --configuration Release
       - name: Test with the dotnet CLI
-        run: dotnet test --no-build
+        run: dotnet test  --no-restore --verbosity normal
                 
       - uses: actions/upload-artifact@v4
         with:
           name: api-client-csharp
           path: De.FxWorld.EuvdApi.Client/src/De.FxWorld.EuvdApi.Client/bin/
           retention-days: 14
+
+      # Publishing: https://docs.github.com/en/actions/use-cases-and-examples/building-and-testing/building-and-testing-net
+      - name: Publish the package to GPR
+        if: ${{ inputs.release == 'true' }}
+        run: dotnet nuget push De.FxWorld.EuvdApi.Client/src/De.FxWorld.EuvdApi.Client/bin/Release/*.nupkg
