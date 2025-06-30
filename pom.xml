@@ -15,14 +15,14 @@
 	
 		<openapi.filename>euvd-api.yaml</openapi.filename>
 		<package.java>de.fxworld.${api.name.small}.client</package.java>
-		<package.javascript>de.fxworld.${api.name.small}.client</package.javascript>
+		<package.javascript></package.javascript>
 		<package.csharp>De.FxWorld.${api.name}.Client</package.csharp>
 		<package.php>${api.name}Client</package.php>
 	
 		<output.java>${project.basedir}/java/${package.java}/</output.java>
 		<output.csharp>${project.basedir}/csharp/${package.csharp}/</output.csharp>
 		<output.php>${project.build.directory}/php</output.php>
-		<output.javascript>${project.build.directory}/javascript</output.javascript>
+		<output.javascript>${project.basedir}/javascript</output.javascript>
 			
 		<input.spec>${project.basedir}/${openapi.filename}</input.spec>
 		<api.version.snapshot>-SNAPSHOT</api.version.snapshot>
@@ -140,8 +140,10 @@
 							<generatorName>javascript</generatorName>
 							<output>${output.javascript}</output>
 							<configOptions>
-								<apiPackage>${package.javascript}</apiPackage>
+								<!--<invokerPackage>${package.javascript}</invokerPackage>-->
 								<packageVersion>${api.version}</packageVersion>
+
+								<!--<npmRepository></npmRepository>-->
 							</configOptions>
 						</configuration>
 					</execution>

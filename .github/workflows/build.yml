@@ -33,6 +33,12 @@ jobs:
           name: csharp-code
           path: csharp/
           retention-days: 1 
+          include-hidden-files: true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: javascript-code
+          path: javascript/
+          retention-days: 1 
           include-hidden-files: true     
           
 
@@ -105,3 +111,32 @@ jobs:
       - name: Publish the package to GPR
         if: ${{ inputs.release == 'true' }}
         run: dotnet nuget push De.FxWorld.EuvdApi.Client/src/De.FxWorld.EuvdApi.Client/bin/Release/*.nupkg
+
+  build-javascript:
+    needs: generate
+    runs-on: ubuntu-latest
+    #defaults:
+    #  run:
+    #    working-directory: euvd_api
+    steps:
+      - name: Download generated sources
+        uses: actions/download-artifact@v4
+        with:
+          name: javascript-code
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          #cache: 'npm'
+      - run: npm install
+      - run: npm run build
+      - run: npm test
+
+      - name: Create target directory
+        run: mkdir target
+      - run: npm pack  --pack-destination="target"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: api-client-javascript
+          path:  target/
+          retention-days: 14
