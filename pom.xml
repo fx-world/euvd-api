@@ -18,11 +18,13 @@
 		<package.javascript></package.javascript>
 		<package.csharp>De.FxWorld.${api.name}.Client</package.csharp>
 		<package.php>${api.name}Client</package.php>
+		<package.rust>${api.name.small}_client</package.rust>
 	
 		<output.java>${project.basedir}/java/${package.java}/</output.java>
 		<output.csharp>${project.basedir}/csharp/${package.csharp}/</output.csharp>
 		<output.php>${project.build.directory}/php</output.php>
 		<output.javascript>${project.basedir}/javascript</output.javascript>
+		<output.rust>${project.basedir}/rust</output.rust>
 			
 		<input.spec>${project.basedir}/${openapi.filename}</input.spec>
 		<api.version.snapshot>-SNAPSHOT</api.version.snapshot>
@@ -144,6 +146,21 @@
 								<packageVersion>${api.version}</packageVersion>
 
 								<!--<npmRepository></npmRepository>-->
+							</configOptions>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>generate-rust</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<generatorName>rust</generatorName>
+							<output>${output.rust}</output>
+							<configOptions>
+								<packageName>${package.rust}</packageName>
+								<packageVersion>${api.version}</packageVersion>
 							</configOptions>
 						</configuration>
 					</execution>
