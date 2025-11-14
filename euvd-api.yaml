@@ -15,11 +15,21 @@ externalDocs:
   url: https://euvd.enisa.europa.eu/apidoc
 servers:
   - url: https://euvdservices.enisa.europa.eu/api
+  
+tags:
+  - name: frontpage
+    description: Frontpage
+  - name: scores_and_filters
+    description: Scores & Filters
+  - name: specific_resources  
+    description: Specific Resources
 
 paths:
   /lastvulnerabilities:
     get:
       summary: Show latest vulnerabilities
+      description: Show latest vulnerabilities
+        Maximum 8 records
       operationId: getLastVulnerabilities
       tags:
         - frontpage
@@ -42,6 +52,8 @@ paths:
   /exploitedvulnerabilities:
     get:
       summary: Show latest exploited vulnerabilities
+      description: Show latest exploited vulnerabilities
+        Maximum 8 records
       operationId: getExploitedVulnerabilities
       tags:
         - frontpage
@@ -64,6 +76,8 @@ paths:
   /criticalvulnerabilities:
     get:
       summary: Show latest critical vulnerabilities
+      description: Show latest critical vulnerabilities
+        Maximum 8 records
       operationId: getCriticalVulnerabilities
       tags:
         - frontpage    
@@ -86,6 +100,8 @@ paths:
   /search:
     get:
       summary: Query Vulnerabilities with Flexible Filters
+      description: Query Vulnerabilities with Flexible Filters
+        Maximum 100 records per request
       operationId: searchVulnerabilities
       tags:
         - scores_and_filters    
@@ -205,6 +221,7 @@ paths:
   /enisaid:
     get:
       summary: Show EUVD by ID
+      description: Show EUVD by ID
       operationId: getByEnisaId
       tags:
         - specific_resources 
@@ -233,6 +250,7 @@ paths:
   /advisory:
     get:
       summary: Show advisory by ID
+      description: Show advisory by ID
       operationId: getAdvisoryById
       tags:
         - specific_resources 
@@ -361,30 +379,6 @@ components:
              $ref: '#/components/schemas/Vulnerability'
         total:
           type: integer
-
-    VulnerabilityWithComponents:
-      allOf:
-        - $ref: '#/components/schemas/VulnerabilityBase'
-        - type: object
-          properties:
-            status:
-              type: string
-              example: 'PUBLISHED'
-            ensia_id:
-              type: string
-              example: 'EUVD-2024-16647\n'       
-            vulnerabilityProduct:
-              type: array  
-              items:        
-                $ref: '#/components/schemas/ProductVersion'
-            vulnerabilityVendor:
-              type: array
-              items:
-                $ref: '#/components/schemas/VendorVersion'
-            vulnerabilityAdvisory:
-              type: array
-              items:
-                $ref: '#/components/schemas/Advisory'
 
     Advisory:
       type: object
