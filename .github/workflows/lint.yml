@@ -5,9 +5,7 @@ on:
         
 jobs:
   lint:
-    runs-on: ubuntu-latest
-    permissions:
-      checks: write
+    runs-on: ubuntu-latest    
     steps:
       # Checkout
       - uses: actions/checkout@v4

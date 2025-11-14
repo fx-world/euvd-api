@@ -7,6 +7,8 @@ on:
   
 jobs:
   call-lint:
+    permissions:
+      checks: write
     uses: ./.github/workflows/lint.yml
     secrets: inherit
     
