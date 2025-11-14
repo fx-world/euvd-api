@@ -16,12 +16,6 @@ jobs:
       # Checkout
       - uses: actions/checkout@v4
       
-      # Run Spectral
-      - uses: stoplightio/spectral-action@latest
-        with:
-          file_glob: 'euvd-api.yaml'
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-      
       # Prepare    
       - name: Set up JDK 17
         uses: actions/setup-java@v4

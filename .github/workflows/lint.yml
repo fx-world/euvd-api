@@ -1,0 +1,18 @@
+name: Build
+
+on:
+  workflow_call:
+        
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout
+      - uses: actions/checkout@v4
+      
+      # Run Spectral
+      - uses: stoplightio/spectral-action@latest
+        with:
+          file_glob: 'euvd-api.yaml'
+          repo_token: ${{ secrets.GITHUB_TOKEN }}

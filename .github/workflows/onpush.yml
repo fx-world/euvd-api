@@ -6,6 +6,10 @@ on:
   pull_request:
   
 jobs:
+  call-lint:
+    uses: ./.github/workflows/lint.yml
+    secrets: inherit
+    
   call-build:
     uses: ./.github/workflows/build.yml
     with:
