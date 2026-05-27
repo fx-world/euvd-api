@@ -158,9 +158,11 @@
 						<configuration>
 							<generatorName>rust</generatorName>
 							<output>${output.rust}</output>
+							<templateDirectory>${project.basedir}/templates/rust</templateDirectory>
 							<configOptions>
 								<packageName>${package.rust}</packageName>
 								<packageVersion>${api.version}</packageVersion>
+								<library>reqwest-trait</library>
 							</configOptions>
 						</configuration>
 					</execution>
