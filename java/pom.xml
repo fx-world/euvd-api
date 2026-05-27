@@ -7,6 +7,11 @@
 	<version>0.0.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
+	<properties>
+	    <maven.compiler.target>17</maven.compiler.target>
+	    <maven.compiler.source>17</maven.compiler.source>
+	</properties>
+
 	<modules>
 		<module>de.fxworld.euvdapi.client</module>
 		<module>de.fxworld.euvdapi.test</module>
