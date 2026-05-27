@@ -9,20 +9,23 @@ info:
   license:
     name: Eclipse Public License 2.0 (EPL)
     url: https://www.eclipse.org/legal/epl-2.0/
-  
+
 externalDocs:
   description: EUVD API Documentation
   url: https://euvd.enisa.europa.eu/apidoc
+
 servers:
   - url: https://euvdservices.enisa.europa.eu/api
-  
+
+security: []
+
 tags:
   - name: frontpage
-    description: Frontpage
+    description: Frontpage — latest, exploited, and critical vulnerabilities (max 8 records)
   - name: scores_and_filters
-    description: Scores & Filters
-  - name: specific_resources  
-    description: Specific Resources
+    description: Scores & Filters — search with CVSS score, EPSS, date, product, vendor, and text filters
+  - name: specific_resources
+    description: Specific Resources — lookup by EUVD ID or advisory ID
 
 paths:
   /lastvulnerabilities:
@@ -48,7 +51,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-    
+
   /exploitedvulnerabilities:
     get:
       summary: Show latest exploited vulnerabilities
@@ -80,7 +83,7 @@ paths:
         Maximum 8 records
       operationId: getCriticalVulnerabilities
       tags:
-        - frontpage    
+        - frontpage
       responses:
         '200':
           description: successful operation
@@ -104,38 +107,38 @@ paths:
         Maximum 100 records per request
       operationId: searchVulnerabilities
       tags:
-        - scores_and_filters    
+        - scores_and_filters
       parameters:
-        - name: fromScore 
+        - name: fromScore
           in: query
-          description: fromScore (0-10, e.g., fromScore=7.5)
+          description: Minimum CVSS score (0-10, e.g., fromScore=7.5)
           required: false
           schema:
             type: number
             minimum: 0
             maximum: 10
             example: 7.5
-        - name: toScore  
+        - name: toScore
           in: query
-          description: toScore (0-10, e.g., toScore=10)
+          description: Maximum CVSS score (0-10, e.g., toScore=10)
           required: false
           schema:
             type: number
             minimum: 0
             maximum: 10
             example: 10
-        - name: fromEpss  
+        - name: fromEpss
           in: query
-          description: (0-100, e.g., fromEpss=20)
+          description: Minimum EPSS score (0-100, e.g., fromEpss=20)
           required: false
           schema:
             type: number
             minimum: 0
             maximum: 100
             example: 20
-        - name: toEpss   
+        - name: toEpss
           in: query
-          description: (0-100, e.g., toEpss=90)
+          description: Maximum EPSS score (0-100, e.g., toEpss=90)
           required: false
           schema:
             type: number
@@ -144,61 +147,77 @@ paths:
             example: 90
         - name: fromDate
           in: query
-          description:  (YYYY-MM-DD, e.g., fromDate=2023-01-14)
+          description: Earliest publication date (YYYY-MM-DD, e.g., fromDate=2023-01-14)
           required: false
           schema:
             type: string
             example: '2023-01-14'
         - name: toDate
           in: query
-          description: (YYYY-MM-DD, e.g., toDate=2025-01-14)
+          description: Latest publication date (YYYY-MM-DD, e.g., toDate=2025-01-14)
           required: false
           schema:
             type: string
             example: '2025-01-14'
+        - name: fromUpdatedDate
+          in: query
+          description: Earliest last-updated date (YYYY-MM-DD, e.g., fromUpdatedDate=2026-05-01)
+          required: false
+          schema:
+            type: string
+            example: '2026-05-01'
+        - name: toUpdatedDate
+          in: query
+          description: Latest last-updated date (YYYY-MM-DD, e.g., toUpdatedDate=2026-05-27)
+          required: false
+          schema:
+            type: string
+            example: '2026-05-27'
         - name: product
           in: query
-          description: (string, e.g., product=Windows)
+          description: Product name. Spaces must be encoded as plus sign (+) (e.g., product=Windows)
           required: false
           schema:
             type: string
             example: 'Windows'
         - name: vendor
           in: query
-          description: (string, e.g., vendor=Microsoft)
+          description: Vendor name. Spaces must be encoded as plus sign (+) (e.g., vendor=Microsoft)
           required: false
           schema:
             type: string
             example: 'Microsoft'
         - name: assigner
           in: query
-          description: (string, e.g., assigner=mitre)
+          description: CVE Numbering Authority (CNA) identifier (e.g., assigner=mitre)
           required: false
           schema:
             type: string
             example: 'mitre'
         - name: exploited
           in: query
-          description: (true/false, e.g., exploited=true)
+          description: Filter by known exploitation status (true/false, e.g., exploited=true). When true, the response includes the exploitedSince field.
           required: false
           schema:
             type: boolean
         - name: page
           in: query
-          description: (integer, starts at 0, e.g., page=2)
+          description: Page number for pagination, starts at 0 (e.g., page=2)
           required: false
           schema:
             type: integer
+            default: 0
+            minimum: 0
         - name: text
           in: query
-          description: (keywords, e.g., text=vulnerability)
+          description: Keywords to search across description, EUVD ID, aliases, product name, and vendor name. Spaces must be encoded as plus sign (+) (e.g., text=port+Axeda+agent)
           required: false
           schema:
             type: string
             example: 'vulnerability'
-        - name: size 
+        - name: size
           in: query
-          description: (integer, default 10, e.g., size=100 (max))
+          description: Number of records per page (default 10, max 100, e.g., size=100)
           required: false
           schema:
             type: integer
@@ -224,11 +243,11 @@ paths:
       description: Show EUVD by ID
       operationId: getByEnisaId
       tags:
-        - specific_resources 
+        - specific_resources
       parameters:
-        - name: id 
+        - name: id
           in: query
-          description: id (string, e.g., id=EUVD-2025-4893)
+          description: The EUVD identifier assigned to the vulnerability (e.g., id=EUVD-2025-4893)
           required: true
           schema:
             type: string
@@ -253,11 +272,11 @@ paths:
       description: Show advisory by ID
       operationId: getAdvisoryById
       tags:
-        - specific_resources 
+        - specific_resources
       parameters:
-        - name: id 
+        - name: id
           in: query
-          description: id (string, e.g., id=oxas-adv-2024-0002)
+          description: The advisory identifier (e.g., id=oxas-adv-2024-0002)
           required: true
           schema:
             type: string
@@ -284,6 +303,8 @@ components:
       properties:
         name:
           type: string
+        vendor:
+          $ref: '#/components/schemas/Vendor'
 
     ProductVersion:
       required:
@@ -320,39 +341,54 @@ components:
         id:
           type: string
           example: 'EUVD-2025-15442'
+        enisaUuid:
+          type: string
+          format: uuid
+          description: Universally unique identifier assigned by EUVD
+          example: '1b8d9b26-ff91-39cd-aede-bfacb509bcfb'
         description:
           type: string
           example: 'PNETLab 4.2.10 does not properly'
         datePublished:
           type: string
+          description: Publication date in human-readable format (e.g., 'May 16, 2025, 12:40:17 PM')
           example: 'May 16, 2025, 12:40:17 PM'
         dateUpdated:
           type: string
+          description: Last update date in human-readable format (e.g., 'May 16, 2025, 12:40:17 PM')
           example: 'May 16, 2025, 12:40:17 PM'
         baseScore:
-          type: number          
+          type: number
           minimum: 0
           maximum: 10
           example: 8.7
         baseScoreVersion:
           type: string
+          description: CVSS version (e.g., '2.0', '3.0', '3.1', '4.0')
           example: '4.0'
         baseScoreVector:
           type: string
+          description: Full CVSS vector string (e.g., 'CVSS:4.0/AV:N/AC:L/...')
           example: 'CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N'
-        references: 
+        references:
           type: string
+          description: Newline-separated list of reference URLs
           example: 'https://www.incibe.es/en/incibe-cert/notices/aviso/path-traversal-vulnerability-pnetlab\n'
-        aliases:  
+        aliases:
           type: string
+          description: Newline-separated list of alternative identifiers (CVE, GSD, GHSA, etc.)
           example: 'CVE-2025-40629\n'
-        assigner:  
+        assigner:
           type: string
+          description: The CVE Numbering Authority (CNA) that assigned the identifier
           example: 'INCIBE'
-        epss: 
+        epss:
           type: number
-          example: 0
-          
+          minimum: 0
+          maximum: 100
+          description: Exploit Prediction Scoring System score (0-100), representing the probability (%) of exploitation in the wild in the next 30 days
+          example: 0.04
+
     Vulnerability:
        allOf:
         - $ref: '#/components/schemas/VulnerabilityBase'
@@ -360,18 +396,34 @@ components:
           properties:
             exploitedSince:
               type: string
-              example: 'May 19, 2025, 12:00:00 AM'               
+              description: Date when the vulnerability was first known to be exploited. Only present when exploited=true filter is applied.
+              example: 'May 19, 2025, 12:00:00 AM'
             enisaIdProduct:
               type: array
-              items: 
+              description: Affected products. May be absent in some endpoints or an empty array.
+              items:
                 $ref: '#/components/schemas/ProductVersion'
             enisaIdVendor:
               type: array
+              description: Affected vendors. May be absent in some endpoints or an empty array.
               items:
                 $ref: '#/components/schemas/VendorVersion'
+            enisaIdVulnerability:
+              type: array
+              description: Related vulnerability records (e.g., GHSA, CVE entries with full details). Present in /enisaid responses.
+              items:
+                $ref: '#/components/schemas/EnisaIdVulnerability'
+            enisaIdAdvisory:
+              type: array
+              description: Related advisory records. Present in /enisaid responses.
+              items:
+                $ref: '#/components/schemas/AdvisoryVulnerability'
 
     VulnerabilityPage:
       type: object
+      required:
+        - items
+        - total
       properties:
         items:
           type: array
@@ -379,6 +431,7 @@ components:
              $ref: '#/components/schemas/Vulnerability'
         total:
           type: integer
+          description: Total number of vulnerabilities matching the query
 
     Advisory:
       type: object
@@ -389,40 +442,46 @@ components:
         description:
           type: string
           example: 'Cisco ATA 190 Series Analog Telephone Adapter Firmware Vulnerabilities'
-        summary:
-          type: string
-          example: 'Multiple vulnerabilities in Cisco ATA 190 Series Analog..'
         datePublished:
           type: string
+          description: Publication date in human-readable format
           example: 'May 16, 2025, 12:40:17 PM'
         dateUpdated:
           type: string
+          description: Last update date in human-readable format
           example: 'May 16, 2025, 12:40:17 PM'
         baseScore:
-          type: number          
-          minimum: -10
+          type: number
+          minimum: 0
           maximum: 10
           example: 8.7
-        references: 
+        references:
           type: string
+          description: Newline-separated list of reference URLs
           example: 'https://www.incibe.es/en/incibe-cert/notices/aviso/path-traversal-vulnerability-pnetlab\n'
         aliases:
           type: string
+          description: Newline-separated list of alternative identifiers (CVE, etc.)
           example: 'CVE-2024-20420\nCVE-2024-20459\nCVE-2024-20460\nCVE-2024-20421\nCVE-2024-20463\nCVE-2024-20458\nCVE-2024-20462\nCVE-2024-20461\n'
-        source:  
+        source:
           $ref: '#/components/schemas/Source'
         advisoryProduct:
           type: array
-          items:       
+          items:
              $ref: '#/components/schemas/AdvisoryProduct'
         enisaIdAdvisories:
           type: array
           items:
              $ref: '#/components/schemas/AdvisoryVulnerability'
+        vulnerabilityAdvisory:
+          type: array
+          description: Related vulnerability-to-advisory mappings
+          items:
+             $ref: '#/components/schemas/AdvisoryVulnerability'
 
     Source:
       type: object
-      properties: 
+      properties:
         id:
           type: number
           example: 10
@@ -432,7 +491,7 @@ components:
 
     AdvisoryProduct:
       type: object
-      properties: 
+      properties:
         id:
           type: string
           example: '5fe32ac4-e2d7-36d8-93f5-df5dde4f4a9a'
@@ -441,20 +500,91 @@ components:
 
     AdvisoryVulnerability:
       type: object
-      properties: 
+      properties:
         id:
           type: string
           example: '5fe32ac4-e2d7-36d8-93f5-df5dde4f4a9a'
         enisaId:
           $ref: '#/components/schemas/Vulnerability'
 
+    EnisaIdVulnerability:
+      type: object
+      description: A nested vulnerability reference returned within /enisaid responses, containing full vulnerability details for related identifiers (GHSA, CVE, etc.)
+      properties:
+        id:
+          type: string
+          example: '23b3171d-51e6-33c1-bd81-65358c89a90a'
+        vulnerability:
+          type: object
+          properties:
+            id:
+              type: string
+              example: 'GHSA-hgfh-7qxq-x5c9'
+            description:
+              type: string
+              example: 'Use of Hard-Coded Credentials vulnerability...'
+            datePublished:
+              type: string
+              example: 'Feb 14, 2025, 4:33:37 PM'
+            dateUpdated:
+              type: string
+              example: 'Feb 14, 2025, 6:38:48 PM'
+            status:
+              type: string
+              description: Publication status (e.g., PUBLISHED)
+              example: 'PUBLISHED'
+            baseScore:
+              type: number
+              minimum: 0
+              maximum: 10
+              example: 7.3
+            baseScoreVersion:
+              type: string
+              example: '3.1'
+            baseScoreVector:
+              type: string
+              example: 'CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L'
+            references:
+              type: string
+              example: 'https://os-s.net/publications/advisories/CVE-2024-8893.pdf\n'
+            enisa_id:
+              type: string
+              description: Parent EUVD identifier
+              example: 'EUVD-2025-4893\n'
+            aliases:
+              type: string
+              example: 'GHSA-hgfh-7qxq-x5c9\nCVE-2024-8893\n'
+            assigner:
+              type: string
+              example: 'ENISA'
+            epss:
+              type: number
+              minimum: 0
+              maximum: 100
+              description: EPSS score (0-100)
+              example: 0.15
+            dataProcessed:
+              type: string
+              description: Timestamp when the record was processed by EUVD
+              example: 'May 27, 2026, 7:08:57 AM'
+            vulnerabilityProduct:
+              type: array
+              items:
+                $ref: '#/components/schemas/AdvisoryProduct'
+            vulnerabilityVendor:
+              type: array
+              items:
+                $ref: '#/components/schemas/VendorVersion'
+
     Error:
       type: object
       properties:
         code:
           type: string
+          description: Error code
         message:
           type: string
+          description: Human-readable error message
       required:
         - code
         - message

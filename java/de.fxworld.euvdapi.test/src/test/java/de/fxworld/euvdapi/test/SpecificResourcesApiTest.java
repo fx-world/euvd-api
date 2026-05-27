@@ -1,14 +1,13 @@
 package de.fxworld.euvdapi.test;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.*;
 
 import de.fxworld.euvdapi.client.*;
-import de.fxworld.euvdapi.client.api.ScoresAndFiltersApi;
 import de.fxworld.euvdapi.client.api.SpecificResourcesApi;
-import de.fxworld.euvdapi.client.model.*;
+import de.fxworld.euvdapi.client.model.Advisory;
+import de.fxworld.euvdapi.client.model.Vulnerability;
 
 class SpecificResourcesApiTest {
 

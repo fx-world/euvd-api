@@ -4,14 +4,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.fx-world</groupId>
 	<artifactId>euvd-api-generator</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
 	
 		<api.name>EuvdApi</api.name>
 		<api.name.small>euvdapi</api.name.small>
-		<api.version>0.0.1</api.version>
+		<api.version>0.0.2</api.version>
 	
 		<openapi.filename>euvd-api.yaml</openapi.filename>
 		<package.java>de.fxworld.${api.name.small}.client</package.java>
